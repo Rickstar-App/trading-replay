@@ -1,40 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Chart Replay
 
-## Getting Started
+A truly blind day-trading replay tool. Candles build forward from the session open — future data never reaches the browser. Practice reading price action, entering trades, and resolving stops and targets under realistic conditions.
 
-First, run the development server:
+**[Try it live →](https://trading-replay.vercel.app)**
+
+---
+
+## What makes this different
+
+Every other replay tool (TradingView replay, demo brokers) loads the full chart and masks future candles. The chart layout spoils the answer. Chart Replay builds forward — future candles do not exist on the client until the cursor reaches them.
+
+---
+
+## Features
+
+- **Blind replay** — candles render one at a time at a configurable speed (1×, 2×, 5×, 10×)
+- **Order entry** — Long/Short direction, entry/stop/target prices, lot size
+- **Live R:R stats** — risk, reward, R:R ratio, and notional value calculated in real time
+- **Trade resolution** — replay auto-stops when price hits your stop or target; P&L shown immediately
+- **Session controls** — play/pause (Space), speed, reset, and return to instrument picker
+- **Keyboard shortcuts** — Space play/pause · 1 2 5 0 speed · L / S direction · Enter submit · Esc cancel
+
+### Supported instruments
+
+| Category | Symbols |
+|---|---|
+| US Equities | SPY, QQQ, IWM, AAPL, TSLA, NVDA |
+| CME Futures | ES, NQ, MES, MNQ |
+| COMEX / NYMEX | GC (Gold), CL (Crude Oil) |
+| Crypto | BTC/USD, ETH/USD |
+
+### Intervals
+
+1-min · 5-min · 15-min
+
+---
+
+## Data availability
+
+| Instrument | Source | 1-min lookback | 5-min / 15-min lookback |
+|---|---|---|---|
+| Equities | Twelve Data | ~1 year | ~1 year |
+| Futures | Yahoo Finance | 7 days | 60 days |
+| Crypto | Twelve Data | ~1 year | ~1 year |
+
+Futures data covers the full overnight Globex session (6 PM ET prior day → 5 PM ET session date). Equities cover regular + extended hours (9:30 AM – 8 PM ET).
+
+---
+
+## Running locally
+
+```bash
+git clone https://github.com/Rickstar-App/trading-replay.git
+cd trading-replay
+npm install
+```
+
+Create `.env.local` with your [Twelve Data](https://twelvedata.com) API key (free tier, no card required):
+
+```
+TWELVE_DATA_API_KEY=your_key_here
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Candle data is cached to `data/` on first fetch — subsequent loads for the same symbol/date are instant.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Tech stack
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Next.js](https://nextjs.org) — Pages Router, API routes
+- [Lightweight Charts v5](https://tradingview.github.io/lightweight-charts/) — candlestick + volume rendering
+- [Twelve Data](https://twelvedata.com) — equities and crypto OHLCV data
+- [Yahoo Finance Chart API](https://query1.finance.yahoo.com) — futures (no key required)
+- TypeScript throughout
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Keyboard reference
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+| Key | Action |
+|---|---|
+| Space | Play / Pause |
+| 1 | 1× speed |
+| 2 | 2× speed |
+| 5 | 5× speed |
+| 0 | 10× speed |
+| L | Long direction |
+| S | Short direction |
+| Enter | Submit trade |
+| Esc | Cancel open trade |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+MIT
