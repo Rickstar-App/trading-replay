@@ -2,7 +2,7 @@
 
 A truly blind day-trading replay tool. Candles build forward from the session open — future data never reaches the browser. Practice reading price action, entering trades, and resolving stops and targets under realistic conditions.
 
-**[Try it live →](https://trading-replay.vercel.app)**
+**[Try it live →](https://trading-replay-topaz.vercel.app/)**
 
 ---
 
