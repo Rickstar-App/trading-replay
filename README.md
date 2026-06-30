@@ -72,6 +72,22 @@ Candle data is cached to `data/` on first fetch — subsequent loads for the sam
 
 ---
 
+## Deploying to Vercel
+
+Fork the repo, then import it in [Vercel](https://vercel.com). After the first deploy, add your API key:
+
+**Vercel dashboard → Settings → Environment Variables**
+
+```
+TWELVE_DATA_API_KEY = your_key_here
+```
+
+Trigger a redeploy after saving — Vercel does not apply new env vars until the next build. Futures (ES, NQ, MES, MNQ, GC, CL) work without a key. Equities and crypto require one.
+
+> On Vercel the session cache is ephemeral — each function invocation starts cold, so the "Available sessions" list is always empty. Pick dates manually in the date picker.
+
+---
+
 ## Tech stack
 
 - [Next.js](https://nextjs.org) — Pages Router, API routes

@@ -19,8 +19,9 @@
 - **Differentiator:** Every competitor (TradingView replay, demo brokers) loads the full
   chart and masks future data. The chart spoils the answer. This tool builds forward —
   future data does not exist on the client until the cursor reaches it.
-- **Project type:** Web app — Next.js + Lightweight Charts + Twelve Data API. Localhost
-  only in v1 (Railway for persistent file cache if remote access needed later).
+- **Project type:** Web app — Next.js + Lightweight Charts + Twelve Data API. Deployed
+  on Vercel (live at https://trading-replay-topaz.vercel.app/); cache is ephemeral per
+  invocation on Vercel — users pick dates manually since session history does not persist.
 
 ---
 
@@ -265,7 +266,7 @@ export const candleSeriesOptions = {
 
 ## Accessibility
 
-- **Keyboard:** Space = play/pause; 1/2/3/4 = speed; L/S = direction; Tab/Enter = form navigation
+- **Keyboard:** Space = play/pause; 1/2/5/0 = speed (1×/2×/5×/10×); L/S = direction; Tab/Enter = form navigation
 - **ARIA:** `role="toolbar"` on top bar; `aria-live="polite"` on speed badge; `role="alert"` on error banners
 - **Labels:** Visible `<label>` ABOVE each form input — not placeholder-only
 - **Focus ring:** Do not suppress `outline` on any interactive element
