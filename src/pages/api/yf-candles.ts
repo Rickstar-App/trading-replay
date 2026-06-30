@@ -30,7 +30,8 @@ const MAX_LOOKBACK_DAYS: Record<string, number> = {
 };
 
 function getCachePath(symbol: string, interval: string, date: string): string {
-  return path.join(process.cwd(), 'data', 'YF', symbol.toUpperCase(), interval, `${date}.json`);
+  const root = process.env.VERCEL ? '/tmp/trading-replay-cache' : path.join(process.cwd(), 'data');
+  return path.join(root, 'YF', symbol.toUpperCase(), interval, `${date}.json`);
 }
 
 function prevCalendarDay(dateStr: string): string {

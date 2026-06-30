@@ -19,12 +19,17 @@ function safeSymbol(symbol: string): string {
   return symbol.replace(/\//g, '_').toUpperCase();
 }
 
+function cacheRoot(): string {
+  // Vercel serverless: only /tmp is writable; local dev: project data/ dir
+  return process.env.VERCEL ? '/tmp/trading-replay-cache' : path.join(process.cwd(), 'data');
+}
+
 export function getCachePath(symbol: string, interval: string, date: string): string {
-  return path.join(process.cwd(), 'data', safeSymbol(symbol), interval, `${date}.json`);
+  return path.join(cacheRoot(), safeSymbol(symbol), interval, `${date}.json`);
 }
 
 export function getCacheDir(symbol: string, interval: string): string {
-  return path.join(process.cwd(), 'data', safeSymbol(symbol), interval);
+  return path.join(cacheRoot(), safeSymbol(symbol), interval);
 }
 
 export const VALID_INTERVALS: Interval[] = ['1min', '5min', '15min'];

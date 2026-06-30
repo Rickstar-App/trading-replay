@@ -6,16 +6,16 @@ import { parseEtDatetime } from '@/lib/time-utils';
 import type { Candle, CandlesResponse, ApiError } from '@/lib/types';
 import type { InstrumentType } from '@/lib/ticker-config';
 
-if (!process.env.TWELVE_DATA_API_KEY) {
-  throw new Error('TWELVE_DATA_API_KEY not set in .env.local');
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<CandlesResponse | ApiError>
 ) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'method_not_allowed', message: 'GET only' });
+  }
+
+  if (!process.env.TWELVE_DATA_API_KEY) {
+    return res.status(503).json({ error: 'config_error', message: 'TWELVE_DATA_API_KEY not configured' });
   }
 
   const { symbol, date, interval, cache_only, type, exchange } = req.query;
