@@ -68,7 +68,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Candle data is cached to `data/` on first fetch — subsequent loads for the same symbol/date are instant.
+Candle data is cached to `data/` on first fetch — subsequent loads for the same symbol/date are instant. (On Vercel, the cache writes to `/tmp/trading-replay-cache` and is ephemeral per invocation.)
 
 ---
 
@@ -82,7 +82,7 @@ Fork the repo, then import it in [Vercel](https://vercel.com). After the first d
 TWELVE_DATA_API_KEY = your_key_here
 ```
 
-Trigger a redeploy after saving — Vercel does not apply new env vars until the next build. Futures (ES, NQ, MES, MNQ, GC, CL) work without a key. Equities and crypto require one.
+Trigger a redeploy after saving — Vercel does not apply new env vars until the next build. Futures (ES, NQ, MES, MNQ, GC, CL) work without a key. Equities and crypto require one. A missing key does not cause a build failure — it returns HTTP 503 on the individual API call, so test a futures symbol first to confirm the deploy is healthy.
 
 > On Vercel the session cache is ephemeral — each function invocation starts cold, so the "Available sessions" list is always empty. Pick dates manually in the date picker.
 
